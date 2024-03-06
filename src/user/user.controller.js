@@ -60,3 +60,13 @@ export const search = async(req, res)=>{
         return res.status(500).send({message: 'Error searching user'})
     }
 }
+
+export const listUser = async(req, res)=>{
+    try {
+        let user = await User.find()
+        return res.send(user)
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send({message: 'Error'})
+    }
+}
