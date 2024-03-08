@@ -2,26 +2,27 @@
 
 import Product from './product.model.js'
 import { checkUpdateP } from '../utils/validator.js'
+import Category from "../category/category.model.js"
 
 export const test = (req, res)=>{
     console.log('test is running')
     return res.send({message:'Test is running'})
 }
 
-// Se agrega la producto0
 export const newProduct =async(req, res)=>{
-    try {
+    try{
         let data = req.body
+        let category = await Category.findOne({ _id: data.category })
+        if (!category) return res.status(404).send({ message: 'Category not found' })
         let product = new Product(data)
-        await product.save()
-        return res.send({message: `Registered succesfully, can be logged with name ${product.name}`})
-    } catch (err) {
+        await product.save() 
+        return res.send({message: `product registered correctly ${product.name}`})
+    }catch(err){
         console.error(err)
-        return res.status(500).send({message:'Error registering product', err: err})
+        return res.status(500).send({message: 'Error registering product', err: err})
     }
 }
 
-// Se edita la producto 
 export const update = async (req, res)=>{
     try {
         let data = req.body
@@ -40,7 +41,6 @@ export const update = async (req, res)=>{
     }
 }
 
-// Se elimina la producto
 export const deleteP = async (req, res)=>{
     try {
         let{ id } = req.params
@@ -53,22 +53,20 @@ export const deleteP = async (req, res)=>{
     }
 }
 
-// Se busca una producto
 export const search = async (req, res)=>{
-    try {
-        let {search} = req.body
+    try{
+        let { search } = req.body
         let product = await Product.find(
             {name: search}
-        )
-        if(!product) return res.status(404).send({menssage: 'product not found'})
-        return res.send({menssage: 'Product found', product})
-    } catch (err) {
+        ).populate('category')
+        if(!product) return res.status(404).send({message: 'Product not found'})
+        return res.send({message: 'Product found', product})
+    }catch(err){
         console.error(err)
-        return res.status(500).send({message:'Error searching product'})
+        return res.status(500).send({message: 'Error searching product'})
     }
 }
 
-// Se listan los productos
 export const listProduct = async (req, res) => {
     try {
         let product = await Product.find()

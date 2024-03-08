@@ -8,7 +8,6 @@ export const test = (req, res)=>{
     return res.send({message:'Test is running'})
 }
 
-// Se agrega un producto
 export const newCategory =async(req, res)=>{
     try {
         let data = req.body
@@ -21,7 +20,6 @@ export const newCategory =async(req, res)=>{
     }
 }
 
-// Se actualiza un producto
 export const update = async (req, res)=>{
     try {
         let data = req.body
@@ -40,7 +38,6 @@ export const update = async (req, res)=>{
     }
 }
 
-// Se elimina una categoria
 export const deleteC = async (req, res)=>{
     try {
         let{ id } = req.params
@@ -53,7 +50,6 @@ export const deleteC = async (req, res)=>{
     }
 }
 
-// Se busca una categoria
 export const search = async(req, res)=>{
     try{
         let { search } = req.body
@@ -66,7 +62,6 @@ export const search = async(req, res)=>{
     }
 }
 
-// Se listan todas las categorias
 export const listCategory = async (req, res) => {
     try {
         let category = await Category.find()

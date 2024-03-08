@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
-    
   },
   "author": "David Godoy",
   "license": "ISC",
@@ -18,11 +17,11 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pdfkit": "^0.14.0"
   },
   "type": "module",
-  "devDependencies":{
+  "devDependencies": {
     "nodemon": "^3.0.3"
   }
-
 }

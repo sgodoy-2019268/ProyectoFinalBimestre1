@@ -6,6 +6,8 @@ import cors from 'cors'
 import { config } from "dotenv"
 import categoryRoutes from '../src/category/category.routes.js'
 import productRoutes from '../src/product/product.routes.js'
+import userRoutes from '../src/user/user.routes.js'
+import shoppingRoutes from '../src/shopping/shopping.routes.js'
 
 
 const app = express()
@@ -18,8 +20,10 @@ app.use(cors())
 app.use(helmet())
 app.use(morgan('dev')) 
 
+app.use('/user', userRoutes)
 app.use('/category', categoryRoutes)
 app.use('/product', productRoutes)
+app.use('/shopping', shoppingRoutes)
 
 
 export const initServer = ()=>{

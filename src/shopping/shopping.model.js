@@ -1,10 +1,6 @@
 import { Schema, model } from "mongoose"
 
 const shoppingSchema = Schema({
-    date:{
-        type: Date,
-        required: true
-    },
     product:{
         type: Schema.Types.ObjectId,
         ref: 'products',
