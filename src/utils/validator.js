@@ -42,3 +42,27 @@ export const checkUpdateP = (data, Id)=>{
         return false
     }
 }
+
+export const checkUpdate = (data, userId)=>{
+    if(userId){
+        if(
+            Object.entries(data).length === 0 ||
+            data.password ||
+            data.password == '' ||
+            data.role ||
+            data.role == ''
+        ) {
+            return false
+        }
+        return true
+    }else{
+        if(
+            Object.entries(data).length === 0 ||
+            data.keeper ||
+            data.keeper == ''
+        ) {
+            return false
+        }
+        return true
+    }
+}
