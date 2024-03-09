@@ -35,7 +35,7 @@ export const update = async(req, res)=>{
             {new: true}
         )
         if(!updatedU) return res.status(401).send({message: 'User not found and not updated'})
-        return res.send({message: 'Updated user', updatedUser: updatedU})
+        return res.send({message: 'Updated user', updatedU})
     }catch(err){
         console.error(err)
         if(err.keyValue.username) return res.status(400).send({message: `Username ${err.keyValue.username} is alredy taken`})

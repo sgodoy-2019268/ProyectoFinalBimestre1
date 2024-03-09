@@ -11,7 +11,7 @@ api.post('/new',  newUser)
 api.put('/update/:id', [validateJwt, isAdmin], update)
 api.delete('/delete/:id', [validateJwt, isAdmin], deleteU)
 api.post('/search', [validateJwt, isAdmin], search)
-api.get('list', listUser)
+api.get('/list', listUser)
 api.post('/login', login)
 
 export default api

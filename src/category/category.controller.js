@@ -34,7 +34,9 @@ export const update = async (req, res)=>{
         if(!updateCategory) return res.status(404).send({menssage: 'Category not found and not upadate'})
         return res.send({menssage:'Update new', updateCategory})
     } catch (err) {
-        return res.status(500).send({message:'Error updatting account'})
+        console.error(err)
+        if(err.keyValue.name) return res.status(400).send({message: `Category ${err.keyValue.name} is alredy taken`})
+        return res.status(500).send({message: 'Error updating category'})
     }
 }
 

@@ -63,7 +63,6 @@ export const update = async(req, res)=>{
         return res.send({ message: 'Purchase updated', updatedShopping })
     } catch (err) {
         console.error(err)
-        if (err.keyValue.description) return res.status(400).send({ message: `Purchase ${err.keyValue.description} is already taken` })
         return res.status(500).send({ message: 'Error updating purchase' })
     }
 }
@@ -74,9 +73,9 @@ export const get = async (req, res) => {
         let { token } = req.headers
         let { uid } = jwt.verify(token, secretKey)
 
-        let compras = await Compra.find({ client: uid })
+        let shopping = await Shopping.find({ client: uid })
 
-        return res.send({ compras })
+        return res.send({ shopping })
     } catch (err) {
         console.error(err)
         return res.status(500).send({ message: 'Error getting purchases' })
@@ -85,7 +84,8 @@ export const get = async (req, res) => {
 
 export const generateAndDeleteInvoices = async (req, res) => {
     try{
-    const currentDate = new Date().toLocaleDateString('en-US', { timeZone: 'UTC' })
+        const uid = req.user.id
+        const currentDate = new Date().toLocaleDateString('en-US', { timeZone: 'UTC' })
         const shopping = await Shopping.find({ client: uid }).populate('product')
         const fileName = `invoices_${uid}.pdf`
 

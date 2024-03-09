@@ -37,19 +37,21 @@ export const update = async (req, res)=>{
         if(!updateProduct) return res.status(404).send({menssage: 'Category not found and not upadate'})
         return res.send({menssage:'Update new', updateProduct})
     } catch (err) {
-        return res.status(500).send({message:'Error updatting account'})
+        console.error(err)
+        if(err.keyValue.name) return res.status(400).send({message: `Product ${err.keyValue.name} is alredy taken`})
+        return res.status(500).send({message: 'Error updating product'})
     }
 }
 
 export const deleteP = async (req, res)=>{
-    try {
-        let{ id } = req.params
-        let deleteProduct = await Product.findOneAndDelete({_id: id})
-        if(!deleteProduct.deleteCount === 0) return res.status(404).send({message: 'Product not found and not delete'})
-        return res.send({message: 'Delete successfully'})
-    } catch (err) {
+    try{
+        let { id } = req.params
+        let deletedProduct = await Product.findOneAndDelete({_id: id}) 
+        if(!deletedProduct) return res.status(404).send({message: 'Product not found and not deleted'})
+        return res.send({message: `Product with name ${deletedProduct.name} deleted successfully`})
+    }catch(err){
         console.error(err)
-        return res.status(500).send({message:'Error deleting account'})
+        return res.status(500).send({message: 'Error deleting Product'})
     }
 }
 
@@ -64,6 +66,27 @@ export const search = async (req, res)=>{
     }catch(err){
         console.error(err)
         return res.status(500).send({message: 'Error searching product'})
+    }
+}
+
+export const searchByCategory = async (req, res) => {
+    try {
+        let data = await Product.find().populate('category')
+        return res.send({ data })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({ message: 'Error obtaining information' })
+    }
+}
+
+export const exhausted = async (req, res) => {
+    try {
+        let data = await Product.findOne({ stock: 0 }).populate('category')
+        if (!data) return res.status(444).send({ message: "there are no products out of stock" })
+        return res.send({ data })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({ message: 'the information cannot be brought' })
     }
 }
 
